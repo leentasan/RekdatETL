@@ -13,5 +13,5 @@ Tujuan :
 
 Link Dokumen Blog Post : https://www.notion.so/Analisis-Kondisi-Cuaca-terhadap-Perbincangan-Indomie-pada-Platform-Twitter-X-efd6e749ef2d42fbb275a3e0b3208354?pvs=4
 
-Link Video : 
+Link Video : https://drive.google.com/drive/folders/1bBkF6qgmvX3QPO2wpNwOBo-CKYGJjqT_?usp=sharing
 
