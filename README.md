@@ -1,5 +1,5 @@
 ## Analisis Kondisi Cuaca terhadap Perbincangan Indomie pada Platform Twitter (X)
-Menganalisis hubungan antara kondisi cuaca dan perbincangan ini di media sosial (Twitter/X) dapat memberikan wawasan tentang bagaimana faktor eksternal memengaruhi perilaku konsumsi dan interaksi digital, serta membantu produsen dalam merumuskan strategi pemasaran yang lebih efektif.
+Menganalisis hubungan antara kondisi cuaca dan perbincangan Indomie di media sosial (Twitter/X) dapat memberikan informasi mengenai bagaimana faktor eksternal memengaruhi perilaku konsumsi dan interaksi digital, serta membantu produsen dalam merumuskan strategi pemasaran yang lebih efektif.
 
 Disusun oleh :
 - Nashatra Aqila Ramadhani       (22/504580/TK/55195) <br>
