@@ -3,3 +3,6 @@ logs/
 __pycache__/
 *.db
 *.pid
+
+.venv
+.env
