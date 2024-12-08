@@ -5,10 +5,11 @@ import requests
 import pandas as pd
 from sqlalchemy import create_engine
 import json
+import os
 
 # Fungsi untuk mengambil data dari API Google Trends
 def fetch_google_trends():
-    url = "https://serpapi.com/search.json?engine=google_trends&q=indomie&geo=ID-YO&date=now+7-d&data_type=TIMESERIES&api_key=3a02df93533b7231d221de3ca294baee492f14268dfa2fe53e3c50140c45d071"
+    url = "https://serpapi.com/search.json?engine=google_trends&q=indomie&geo=ID-YO&date=today+1-m&data_type=TIMESERIES&api_key=3a02df93533b7231d221de3ca294baee492f14268dfa2fe53e3c50140c45d071"
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -46,51 +47,64 @@ def transform_data():
 
         # Simpan data ke file CSV sementara
         df_transformed.to_csv('/tmp/google_trends_transformed.csv', index=False)
-        print("Data berhasil ditransformasi dan disimpan ke /tmp/google_trends_transformed.csv")
 
-# Fungsi untuk memuat data ke PostgreSQL
 def load_to_postgresql():
     # Koneksi ke PostgreSQL
     engine = create_engine('postgresql+psycopg2://airflow:airflow@postgres:5432/airflow')
 
-    # Load data dari file CSV sementara
-    df_transformed = pd.read_csv('/tmp/google_trends_transformed.csv')
+    # Path file CSV hasil transformasi
+    input_file = '/tmp/google_trends_transformed.csv'
 
-    # Fungsi untuk memetakan tipe data pandas ke tipe data SQL
-    def map_dtype(dtype):
-        if dtype == 'int64':
-            return 'INTEGER'
-        elif dtype == 'float64':
-            return 'FLOAT'
-        elif dtype == 'object':
-            return 'TEXT'
-        else:
-            return 'TEXT'  # Default tipe data
+    try:
+        # Periksa keberadaan file
+        if not os.path.exists(input_file):
+            raise FileNotFoundError(f"File {input_file} tidak ditemukan.")
+        
+        # Load data dari file CSV
+        df_transformed = pd.read_csv(input_file)
 
-    # Nama tabel di PostgreSQL
-    table_name = 'google_trends'
+        # Fungsi untuk memetakan tipe data pandas ke tipe data SQL
+        def map_dtype(dtype):
+            if dtype == 'int64':
+                return 'INTEGER'
+            elif dtype == 'float64':
+                return 'FLOAT'
+            elif dtype == 'object':
+                return 'TEXT'
+            else:
+                return 'TEXT'  # Default tipe data
 
-    # Buat tabel baru dengan kolom berdasarkan DataFrame
-    create_table_query = f"""
-    CREATE TABLE IF NOT EXISTS {table_name} (
-        {', '.join([f"{col} {map_dtype(df_transformed[col].dtype)}" for col in df_transformed.columns])}
-    );
-    """
+        # Nama tabel di PostgreSQL
+        table_name = 'google_trends1'
 
-    # Eksekusi query pembuatan tabel
-    with engine.connect() as connection:
-        connection.execute(create_table_query)
-        print(f"Tabel '{table_name}' berhasil dibuat atau sudah ada.")
+        # Buat tabel baru dengan kolom berdasarkan DataFrame
+        create_table_query = f"""
+        CREATE TABLE IF NOT EXISTS {table_name} (
+            {', '.join([f"{col} {map_dtype(df_transformed[col].dtype)}" for col in df_transformed.columns])}
+        );
+        """
 
-    # Muat data ke tabel PostgreSQL
-    df_transformed.to_sql(table_name, engine, if_exists='replace', index=False)
-    print(f"Data berhasil dimuat ke PostgreSQL dalam tabel '{table_name}'.")
+        # Eksekusi query pembuatan tabel
+        with engine.connect() as connection:
+            connection.execute(create_table_query)
+            print(f"Tabel '{table_name}' berhasil dibuat atau sudah ada.")
+
+        # Muat data ke tabel PostgreSQL
+        df_transformed.to_sql(table_name, engine, if_exists='replace', index=False)
+        print(f"Data berhasil dimuat ke PostgreSQL dalam tabel '{table_name}'.")
+    
+    except FileNotFoundError as fnf_error:
+        print(fnf_error)
+    except pd.errors.EmptyDataError:
+        print(f"File {input_file} kosong atau tidak memiliki data yang valid.")
+    except Exception as e:
+        print(f"Kesalahan saat memuat data ke PostgreSQL: {e}")
 
 
 # Definisikan DAG
 with DAG(
     dag_id='google_trends_etl',
-    start_date=datetime(2024, 11, 20),
+    start_date=datetime(2024, 11, 8),
     schedule_interval='@daily',  # Menjalankan DAG setiap hari
     catchup=False,
 ) as dag:
