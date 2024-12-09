@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/f0497e41-ca13-44f2-97af-17e71f441aaa)
 ## Analisis Kondisi Cuaca terhadap Pencarian Indomie pada Platform Google Trends
 Menganalisis hubungan antara kondisi cuaca dan perbincangan Indomie di Platform Digital (Google Trends) dapat memberikan informasi mengenai bagaimana faktor eksternal memengaruhi perilaku konsumsi dan interaksi digital, serta membantu produsen dalam merumuskan strategi pemasaran yang lebih efektif.
 
@@ -6,7 +7,7 @@ Disusun oleh :
 - Raffa Alzena Zhafirah          (22/505656/TK/55353) <br>
 - Della Febi Alfian              (22/505892/TK/55393) <br>
 
-Tujuan :
+Tujuan dan Manfaat:
 - Menganalisis Kondisi Cuaca (dingin, panas, atau hujan) terhadap intensitas perbincangan tentang Indomie di Google Trends. <br>
 - Memberikan wawasan tentang bagaimana faktor eksternal seperti cuaca memengaruhi perilaku pencarian digital masyarakat Indonesia. <br>
 - Memberikan rekomendasi bagi produsen Indomie untuk menyusun strategi pemasaran yang relevan dengan tren perbincangan berbasis cuaca. <br>
